@@ -5,7 +5,7 @@ class User(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=255)
-    team_id = models.CharField(max_length=100, null=True, blank=True)
+    team_id = models.IntegerField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -30,7 +30,7 @@ class Team(models.Model):
 
 
 class Activity(models.Model):
-    user_id = models.CharField(max_length=100)
+    user_id = models.IntegerField()
     activity_type = models.CharField(max_length=100)
     duration = models.IntegerField()  # in minutes
     distance = models.FloatField(null=True, blank=True)  # in km
@@ -47,9 +47,9 @@ class Activity(models.Model):
 
 
 class Leaderboard(models.Model):
-    user_id = models.CharField(max_length=100, unique=True)
+    user_id = models.IntegerField(unique=True)
     user_name = models.CharField(max_length=100)
-    team_id = models.CharField(max_length=100, null=True, blank=True)
+    team_id = models.IntegerField(null=True, blank=True)
     team_name = models.CharField(max_length=100, null=True, blank=True)
     total_points = models.IntegerField(default=0)
     total_activities = models.IntegerField(default=0)

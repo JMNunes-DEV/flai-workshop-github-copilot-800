@@ -7,8 +7,18 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'name', 'email', 'password', 'team_id', 'created_at', 'updated_at']
         extra_kwargs = {
-            'password': {'write_only': True}
+            'password': {'write_only': True, 'required': False}
         }
+    
+    def update(self, instance, validated_data):
+        # If password is provided, set it; otherwise keep the existing one
+        if 'password' in validated_data:
+            instance.password = validated_data['password']
+        instance.name = validated_data.get('name', instance.name)
+        instance.email = validated_data.get('email', instance.email)
+        instance.team_id = validated_data.get('team_id', instance.team_id)
+        instance.save()
+        return instance
 
 
 class TeamSerializer(serializers.ModelSerializer):
